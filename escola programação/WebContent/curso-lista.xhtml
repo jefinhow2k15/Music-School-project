@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Lista de Cursos</title>
+</h:head>
+<h:body>
+	<p:panel header="Lista">
+		<p:button icon="ui-icon-plus" value="Novo" outcome="curso-formulario" />
+		<br/><br/>
+		<h:form>
+		<p:growl/>
+			<p:dataTable value="#{cursoBean.cursos}" var="curso"
+				paginator="true" rows="5" paginatorPosition="bottom" 
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} 
+						{PageLinks} {NextPageLink} {LastPageLink}"
+						id="tabela-cursos">
+				<p:column headerText="Curso" filterBy="#{curso.nome}">
+					<h:outputText value="#{curso.nome}" />
+				</p:column>
+				<p:column headerText="Duração">
+					<h:outputText value="#{curso.duracao}" />
+				</p:column>
+				<p:column headerText="Tipo">
+					<h:outputText value="#{curso.tipo.label}" />
+				</p:column>
+				<p:column style="text-align:center" exportable="false">
+					<p:commandLink value="Editar" action="#{cursoBean.editar(curso)}" 
+						style="color:blue" />
+					
+					<p:commandLink value="Excluir" action="#{cursoBean.excluir(curso)}" 
+						style="color:red; margin-left:30px" update="@form" />
+				</p:column>
+			</p:dataTable>
+			<br/>
+			<h:commandLink value="Baixar Arquivo">
+                    <p:dataExporter type="xls" target="tabela-cursos" fileName="cursos" />
+                </h:commandLink>
+		</h:form>
+	</p:panel>
+</h:body>
+
+</html>
